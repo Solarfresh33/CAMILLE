@@ -40,7 +40,7 @@ BANNER = r"""
    ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚══════╝╚══════╝╚══════╝
 
   Cyber Audit & Monitoring Intelligence for Local and Large Environments
-  For authorized use only — v2.1.0
+  For authorized use only — v1.0.0
 """
 
 

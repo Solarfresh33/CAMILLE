@@ -209,6 +209,50 @@
     .timeline{flex-wrap:wrap}.tl-step{min-width:50%}
     .kv{grid-template-columns:1fr}
   }
+
+  /* ── Legal warning modal ────────────────────────────── */
+  .modal-veil{position:fixed;inset:0;background:rgba(3,6,4,.86);backdrop-filter:blur(6px);
+    z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;
+    animation:veilIn .25s ease}
+  .modal-veil.on{display:flex}
+  @keyframes veilIn{from{opacity:0}to{opacity:1}}
+  .modal{max-width:560px;width:100%;background:linear-gradient(180deg,var(--panel),var(--bg-soft));
+    border:1px solid var(--line-bright);border-radius:14px;overflow:hidden;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,.9),var(--glow);
+    animation:modalIn .35s cubic-bezier(.2,.7,.2,1)}
+  @keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}
+  .modal-head{display:flex;align-items:center;gap:14px;padding:22px 26px;
+    border-bottom:1px solid var(--line);background:rgba(255,145,77,.04)}
+  .modal-head .icon{width:38px;height:38px;border-radius:9px;background:rgba(255,145,77,.1);
+    border:1px solid rgba(255,145,77,.3);display:grid;place-items:center;flex-shrink:0;color:var(--high)}
+  .modal-head .icon svg{width:20px;height:20px}
+  .modal-head h2{font-family:'Space Grotesk',sans-serif;font-size:16px;letter-spacing:.18em;
+    text-transform:uppercase;font-weight:700;color:#fff}
+  .modal-body{padding:24px 26px;font-size:13.5px;line-height:1.7;color:var(--text)}
+  .modal-body p{margin-bottom:14px}
+  .modal-body p:last-of-type{margin-bottom:0}
+  .modal-body b{color:var(--green);font-weight:700}
+  .modal-body .legal{margin-top:16px;padding:12px 14px;background:var(--bg);
+    border-left:2px solid var(--high);border-radius:4px;font-size:12.5px;color:var(--muted)}
+  .modal-body .legal b{color:var(--high)}
+  .modal-foot{padding:18px 26px;border-top:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  .modal-check{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;
+    font-size:12.5px;color:var(--muted);transition:color .15s}
+  .modal-check:hover{color:var(--text)}
+  .modal-check input{display:none}
+  .modal-check .box{width:16px;height:16px;border:1px solid var(--line-bright);border-radius:4px;
+    display:grid;place-items:center;transition:all .15s;background:var(--bg)}
+  .modal-check input:checked + .box{background:var(--green);border-color:var(--green)}
+  .modal-check input:checked + .box::after{content:"";width:4px;height:8px;border:solid #04140d;
+    border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-2px}
+  .modal-btns{display:flex;gap:10px}
+  .modal .btn-cancel{background:none;border:1px solid var(--line-bright);color:var(--muted);
+    padding:11px 22px;border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .18s}
+  .modal .btn-cancel:hover{border-color:var(--crit);color:var(--crit)}
+  .modal .btn-accept{padding:11px 26px;font-size:12px;letter-spacing:.12em}
+  .modal .btn-accept:disabled{cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -275,7 +319,51 @@
 
   <div id="results"></div>
 
-  <footer>CAMILLE v2.1.0 — Pour usage autorisé uniquement</footer>
+  <footer>CAMILLE v1.0.0 — Pour usage autorisé uniquement</footer>
+</div>
+
+<!-- ── Legal warning modal ─────────────────────────────────────── -->
+<div class="modal-veil" id="warn-modal" role="dialog" aria-modal="true" aria-labelledby="warn-title">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>
+          <path d="M12 9v4M12 17h.01"/>
+        </svg>
+      </div>
+      <h2 id="warn-title">Avertissement légal</h2>
+    </div>
+    <div class="modal-body">
+      <p>CAMILLE effectue une <b>reconnaissance active</b> qui envoie du trafic
+      réseau vers la cible désignée (scan de ports, requêtes DNS, connexions
+      SSL/TLS, requêtes HTTP).</p>
+      <p>Ces actions sont assimilables à une <b>tentative d'intrusion</b> au
+      regard de la loi. Tu ne dois lancer un scan que sur des systèmes dont
+      tu es <b>propriétaire</b>, ou pour lesquels tu détiens une
+      <b>autorisation écrite explicite</b> du propriétaire.</p>
+      <div class="legal">
+        <b>Rappel légal (France) —</b> l'article <b>323-1 du Code pénal</b>
+        punit l'accès ou le maintien frauduleux dans un système de traitement
+        automatisé de données de <b>3 ans d'emprisonnement et 100 000 €
+        d'amende</b>. Des dispositions équivalentes existent dans la plupart
+        des juridictions (Computer Fraud and Abuse Act aux États-Unis,
+        Computer Misuse Act au Royaume-Uni, etc.).
+      </div>
+      <p style="margin-top:16px">L'auteur de CAMILLE décline toute
+      responsabilité en cas d'utilisation illégale ou non autorisée.</p>
+    </div>
+    <div class="modal-foot">
+      <label class="modal-check">
+        <input type="checkbox" id="warn-dontshow"><span class="box"></span>
+        <span>Ne plus afficher</span>
+      </label>
+      <div class="modal-btns">
+        <button class="btn-cancel" id="warn-cancel">Annuler</button>
+        <button class="btn btn-accept" id="warn-accept">J'accepte et je suis autorisé</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -390,7 +478,7 @@ function renderHTTP(d){
 
 const RENDER = { ports:renderPorts, ssl:renderSSL, dns:renderDNS, http:renderHTTP };
 
-function startScan(){
+function doStartScan(){
   const target = $('#target').value.trim();
   if(!target){ $('#target').focus(); return; }
 
@@ -450,8 +538,45 @@ function finish(){
   runBtn.textContent = 'Lancer le scan';
 }
 
-runBtn.addEventListener('click', startScan);
-$('#target').addEventListener('keydown', e=>{ if(e.key==='Enter') startScan(); });
+// ── Legal warning modal ─────────────────────────────────────────
+const WARN_KEY = 'camille.warn.accepted';
+const warnModal = $('#warn-modal');
+let pendingScanTarget = null;
+
+function needsWarning(){
+  try{ return localStorage.getItem(WARN_KEY) !== '1'; }
+  catch(_){ return true; }  // no localStorage → warn every time (safe default)
+}
+
+function openWarning(){
+  $('#warn-dontshow').checked = false;
+  warnModal.classList.add('on');
+  setTimeout(()=>$('#warn-accept').focus(), 50);
+}
+function closeWarning(){ warnModal.classList.remove('on'); pendingScanTarget = null; }
+
+$('#warn-accept').addEventListener('click', ()=>{
+  if($('#warn-dontshow').checked){
+    try{ localStorage.setItem(WARN_KEY, '1'); }catch(_){}
+  }
+  warnModal.classList.remove('on');
+  doStartScan();
+});
+$('#warn-cancel').addEventListener('click', closeWarning);
+warnModal.addEventListener('click', e=>{ if(e.target === warnModal) closeWarning(); });
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape' && warnModal.classList.contains('on')) closeWarning();
+});
+
+function requestScan(){
+  const target = $('#target').value.trim();
+  if(!target){ $('#target').focus(); return; }
+  if(needsWarning()){ pendingScanTarget = target; openWarning(); return; }
+  doStartScan();
+}
+
+runBtn.addEventListener('click', requestScan);
+$('#target').addEventListener('keydown', e=>{ if(e.key==='Enter') requestScan(); });
 function showDlStatus(msg, color){
   const el = $('#dl-status');
   el.textContent = msg;
